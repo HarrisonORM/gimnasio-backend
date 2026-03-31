@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
-from app.models import usuario, plan
+from app.models import usuario, plan, membresia, tiquetera, ingreso, face_encoding
 
 Base.metadata.create_all(bind=engine)
 
