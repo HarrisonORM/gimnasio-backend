@@ -1,5 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.database import Base, engine
+from app.models import usuario, plan
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Gimnasio API",
@@ -23,12 +27,5 @@ def root():
 def health():
     return {"status": "ok"}
 
-from app.database import engine
 
-@app.get("/test-db")
-def test_db():
-    try:
-        with engine.connect() as connection:
-            return {"database": "conexion exitosa ✅"}
-    except Exception as e:
-        return {"database": f"error: {str(e)}"}
+
