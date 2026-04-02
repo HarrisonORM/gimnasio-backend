@@ -1,10 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.database import Base, engine
-from app.models import usuario, plan, membresia, tiquetera, ingreso, face_encoding
-from app.routers import usuarios, planes, tiqueteras, acceso, dashboard
+from app.database import Base, engine, SessionLocal
+from app.models import usuario, plan, membresia, tiquetera, ingreso, face_encoding, admin
+from app.routers import usuarios, planes, tiqueteras, acceso, dashboard, auth
+from app.services.auth_service import crear_admin_inicial
 
 Base.metadata.create_all(bind=engine)
+
+db = SessionLocal()
+crear_admin_inicial(db)
+db.close()
 
 app = FastAPI(
     title="Gimnasio API",
@@ -19,6 +24,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(auth.router)
 app.include_router(usuarios.router)
 app.include_router(planes.router)
 app.include_router(tiqueteras.router)
@@ -32,6 +39,3 @@ def root():
 @app.get("/health")
 def health():
     return {"status": "ok"}
-
-
-
