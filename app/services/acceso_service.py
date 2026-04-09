@@ -16,10 +16,13 @@ def validar_acceso(db: Session, usuario_id: int):
         db.add(ingreso)
         db.commit()
         db.refresh(ingreso)
+
+        dias_restantes = (membresia.fecha_fin - datetime.now()).days
         return {
             "permitido": True,
             "tipo_acceso": "membresia",
-            "mensaje": "Acceso permitido por membresía activa",
+            "mensaje_bienvenida": "Bienvenido a EVOGYM",
+            "mensaje": f"Membresía activa — vence en {dias_restantes} días",
             "fecha_fin": membresia.fecha_fin,
             "ingreso_id": ingreso.id
         }
@@ -27,7 +30,6 @@ def validar_acceso(db: Session, usuario_id: int):
     tiquetera = tiquetera_service.verificar_tiquetera(db, usuario_id)
     if tiquetera:
         tiquetera_service.descontar_entrada(db, usuario_id)
-        tiquetera_actualizada = tiquetera_service.obtener_tiquetera_activa(db, usuario_id)
         entradas_restantes = tiquetera.entradas_totales - tiquetera.entradas_usadas - 1
 
         ingreso = Ingreso(
@@ -40,10 +42,12 @@ def validar_acceso(db: Session, usuario_id: int):
         db.add(ingreso)
         db.commit()
         db.refresh(ingreso)
+
         return {
             "permitido": True,
             "tipo_acceso": "tiquetera",
-            "mensaje": f"Acceso permitido. Te quedan {entradas_restantes} entradas",
+            "mensaje_bienvenida": "Bienvenido a EVOGYM",
+            "mensaje": f"Te quedan {entradas_restantes} entradas disponibles",
             "entradas_restantes": entradas_restantes,
             "ingreso_id": ingreso.id
         }
@@ -60,5 +64,6 @@ def validar_acceso(db: Session, usuario_id: int):
     return {
         "permitido": False,
         "tipo_acceso": None,
-        "mensaje": "Acceso denegado - Sin membresía activa ni entradas disponibles"
+        "mensaje_bienvenida": None,
+        "mensaje": "No tienes membresía activa ni entradas disponibles"
     }
