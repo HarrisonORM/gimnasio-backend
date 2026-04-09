@@ -6,6 +6,7 @@ from app.schemas.ingreso import IngresoResponse
 from app.services import acceso_service, usuario_service
 from app.models.ingreso import Ingreso
 from app.models.usuario import Usuario
+from datetime import datetime
 
 router = APIRouter(tags=["Acceso"])
 
@@ -40,17 +41,11 @@ def historial_usuario(usuario_id: int, db: Session = Depends(get_db)):
     ).order_by(Ingreso.fecha_hora.desc()).limit(20).all()
 @router.post("/acceso/cedula/{cedula}")
 def acceso_por_cedula(cedula: str, db: Session = Depends(get_db)):
-    usuario = db.query(Usuario).filter(Usuario.cedula == cedula).first()
+    usuario = db.query(Usuario).filter(
+        Usuario.cedula == cedula
+    ).first()
+
     if not usuario:
-        ingreso = Ingreso(
-            usuario_id=None,
-            fecha_hora=datetime.now(),
-            tipo_acceso=None,
-            permitido=False,
-            motivo_denegado=f"Cédula {cedula} no registrada"
-        )
-        db.add(ingreso)
-        db.commit()
         return {
             "permitido": False,
             "mensaje": "Cédula no registrada en el sistema",

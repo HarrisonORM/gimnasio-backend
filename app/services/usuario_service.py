@@ -7,7 +7,8 @@ def crear_usuario(db: Session, usuario: UsuarioCreate):
         nombre=usuario.nombre,
         apellido=usuario.apellido,
         email=usuario.email,
-        telefono=usuario.telefono
+        telefono=usuario.telefono,
+        cedula=usuario.cedula
     )
     db.add(db_usuario)
     db.commit()
