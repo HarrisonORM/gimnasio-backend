@@ -11,6 +11,7 @@ class Usuario(Base):
     apellido = Column(String(100), nullable=False)
     email = Column(String(150), unique=True, nullable=False)
     telefono = Column(String(20), nullable=True)
+    cedula = Column(String(20), unique=True, nullable=True)
     foto_path = Column(String(255), nullable=True)
     fecha_registro = Column(DateTime, default=func.now())
 

@@ -2,9 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine, SessionLocal
 from app.models import usuario, plan, membresia, tiquetera, ingreso, face_encoding, admin
-from app.routers import usuarios, planes, tiqueteras, acceso, dashboard, auth
+from app.routers import usuarios, planes, tiqueteras, acceso, dashboard, auth, facial
 from app.services.auth_service import crear_admin_inicial
-
+from app.routers import usuarios, planes, tiqueteras, acceso, dashboard, auth, facial
 Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
@@ -31,7 +31,7 @@ app.include_router(planes.router)
 app.include_router(tiqueteras.router)
 app.include_router(acceso.router)
 app.include_router(dashboard.router)
-
+app.include_router(facial.router)
 @app.get("/")
 def root():
     return {"mensaje": "Bienvenido a Gimnasio API 💪"}

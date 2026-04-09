@@ -7,6 +7,7 @@ class UsuarioBase(BaseModel):
     apellido: str
     email: EmailStr
     telefono: Optional[str] = None
+    cedula: Optional[str] = None
 
 class UsuarioCreate(UsuarioBase):
     pass
@@ -15,6 +16,7 @@ class UsuarioUpdate(BaseModel):
     nombre: Optional[str] = None
     apellido: Optional[str] = None
     telefono: Optional[str] = None
+    cedula: Optional[str] = None
 
 class UsuarioResponse(UsuarioBase):
     id: int

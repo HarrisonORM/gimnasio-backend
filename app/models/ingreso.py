@@ -7,7 +7,7 @@ class Ingreso(Base):
     __tablename__ = "ingresos"
 
     id = Column(Integer, primary_key=True, index=True)
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"), nullable=False)
+    usuario_id = Column(Integer, ForeignKey("usuarios.id"), nullable=True)
     fecha_hora = Column(DateTime, default=func.now())
     tipo_acceso = Column(String(20), nullable=True)
     permitido = Column(Boolean, nullable=False)
