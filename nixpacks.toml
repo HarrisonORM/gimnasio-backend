@@ -1,2 +1,8 @@
 [phases.setup]
-nixPkgs = ["xorg.libxcb", "xorg.libX11", "xorg.libXext", "xorg.libXrender", "xorg.libXtst", "xorg.libXi"]
+nixPkgs = ["python311", "xorg.libxcb", "xorg.libX11", "xorg.libXext", "xorg.libXrender", "xorg.libXtst", "xorg.libXi"]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
+
+[start]
+cmd = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
