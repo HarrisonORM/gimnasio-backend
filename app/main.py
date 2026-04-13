@@ -21,7 +21,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://gimnasio-frontend.vercel.app"
+        "https://gimnasio-frontend-tau.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
