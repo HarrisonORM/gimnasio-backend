@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import pickle
-from deepface import DeepFace
 from sqlalchemy.orm import Session
 from app.models.face_encoding import FaceEncoding
 from app.models.usuario import Usuario
@@ -11,6 +10,7 @@ DETECTOR = "opencv"
 
 def extraer_embedding(imagen_path: str):
     try:
+        from deepface import DeepFace
         resultado = DeepFace.represent(
             img_path=imagen_path,
             model_name=MODELO,
